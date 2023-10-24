@@ -14,7 +14,6 @@ export async function GET() {
         }),
       }
     );
-    if (!response.ok) throw new Error("API request failed");
     const data = await response.json();
     return NextResponse.json(data);
   } catch (e) {
