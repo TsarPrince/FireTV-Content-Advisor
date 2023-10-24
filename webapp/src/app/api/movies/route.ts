@@ -2,17 +2,10 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    const API_KEY = process.env.TMDB_API_KEY;
+    if (!API_KEY) throw new Error("Missing TMDB_API_KEY env var");
     const response = await fetch(
-      `https://amazon-challenge-api.onrender.com/get_movies`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mood: "happy",
-        }),
-      }
+      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
     );
     const data = await response.json();
     return NextResponse.json(data);
