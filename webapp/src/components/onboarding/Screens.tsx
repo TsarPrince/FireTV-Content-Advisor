@@ -8,14 +8,22 @@ import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Interests from "./Interests";
-
-const Screens: { [x: string]: React.ReactNode } = {
-  "Choose your interests": <Interests />,
-  "Privacy settings": <Interests />,
-};
+import PrivacySettings from "./PrivacySettings";
 
 export default function HorizontalNonLinearStepper() {
+  const Screens: { [x: string]: React.FunctionComponent<never> } = {
+    "Choose your interests": Interests,
+    "Privacy settings": PrivacySettings,
+  };
+
   const steps = Object.keys(Screens);
+  const [screenData, setScreenData] = React.useState<(object | null)[]>(
+    Array.from({ length: steps.length }, () => null)
+  );
+
+  React.useEffect(() => {
+    console.log({ genres: screenData[0] });
+  });
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{
@@ -92,7 +100,14 @@ export default function HorizontalNonLinearStepper() {
           </>
         ) : (
           <>
-            {Screens[steps[activeStep]]}
+            {React.createElement(Screens[steps[activeStep]], {
+              initialData: screenData[activeStep],
+              onChange: (data: object) => {
+                const newData = [...screenData];
+                newData[activeStep] = data;
+                setScreenData(newData);
+              },
+            } as never)}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
