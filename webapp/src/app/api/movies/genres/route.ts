@@ -7,7 +7,7 @@ export async function GET() {
     const response = await fetch(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
     );
-    if (!response.ok) throw new Error("API request failed");
+    if (!response.ok) throw new Error(response.statusText);
     const data = await response.json();
     return NextResponse.json(data);
   } catch (e) {

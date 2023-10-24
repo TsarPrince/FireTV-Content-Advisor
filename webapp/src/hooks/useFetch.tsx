@@ -20,7 +20,7 @@ export function useFetch<T>(
         setLoading(true);
         const { input, init } = fetchArgs;
         const response = await fetch(input, init);
-        if (!response.ok) throw new Error("Something went wrong");
+        if (!response.ok) throw new Error(response.statusText);
         const json = (await response.json()) as APIResponse<T>;
         if (!json.data) throw new Error("No data returned");
         setData(json.data);
