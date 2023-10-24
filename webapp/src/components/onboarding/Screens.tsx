@@ -9,8 +9,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Interests from "./Interests";
 import PrivacySettings from "./PrivacySettings";
+import { useRouter } from "next/navigation";
 
 export default function HorizontalNonLinearStepper() {
+  const router = useRouter();
   const Screens: { [x: string]: React.FunctionComponent<never> } = {
     "Choose your interests": Interests,
     "Privacy settings": PrivacySettings,
@@ -130,11 +132,20 @@ export default function HorizontalNonLinearStepper() {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button onClick={handleComplete}>
+                  <Button
+                    onClick={() => {
+                      if (completedSteps() === totalSteps() - 1)
+                        router.push("/recommendations");
+                      else handleComplete();
+                    }}
+                  >
                     {completedSteps() === totalSteps() - 1
                       ? "Finish"
                       : "Complete Step"}
                   </Button>
+                  // <Link href={"/recommendations"}>
+                  //   <Button>Finish</Button>
+                  // </Link>
                 ))}
             </Box>
           </>
