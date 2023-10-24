@@ -13,6 +13,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { Movie } from "@/lib/types";
+import { resolveImage } from "@/lib/tmdb";
 
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
@@ -34,7 +35,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
       <CardMedia
         component="img"
         height="194"
-        image={movie.poster_path}
+        image={resolveImage(movie.poster_path)}
         alt="Paella dish"
       />
       <CardContent
