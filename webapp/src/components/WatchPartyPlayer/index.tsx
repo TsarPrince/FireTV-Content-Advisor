@@ -16,6 +16,7 @@ import {
 
 // import { MOVIE_GENRES } from "@/constants/genres";
 import { Movie } from "@/lib/types";
+import { resolveImage } from "@/lib/tmdb";
 
 // const MOVIE = {
 //   adult: false,
@@ -44,7 +45,7 @@ export default function WatchPartyPlayer({ movie: MOVIE }: { movie: Movie }) {
     <Card
       sx={{
         display: "flex",
-        backgroundImage: `url(${MOVIE.backdrop_path})`,
+        backgroundImage: `url(${resolveImage(MOVIE.backdrop_path)})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
