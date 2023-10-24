@@ -1,12 +1,13 @@
 import Image from "next/image";
 import FireTVBannerImage from "../assets/fire-tv.png";
 
-export default function GDSCBanner() {
+export default function FireTVBanner() {
   return (
     <Image
       src={FireTVBannerImage}
-      alt="GDSC Logo"
-      style={{ borderRadius: "4rem", userSelect: "none" }}
+      alt="FireTV Banner"
+      width={128}
+      style={{ userSelect: "none" }}
     />
   );
 }

@@ -9,8 +9,11 @@ export default function Copyright(props: TypographyProps) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://dsc.iiitl.ac.in">
-        GDSC IIITL
+      <Link
+        color="inherit"
+        href="https://github.com/chakri68/firetv-content-advisor/"
+      >
+        Amazon Lelo
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

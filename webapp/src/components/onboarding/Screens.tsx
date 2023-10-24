@@ -7,15 +7,16 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Interests from "./Interests";
 
-const steps = [
-  "Create an account",
-  "Choose your interests",
-  "Find your friends",
-  "Privacy settings",
-];
+const Screens: { [x: string]: React.ReactNode } = {
+  "Choose your interests": <Interests />,
+  "Privacy settings": <Interests />,
+};
 
 export default function HorizontalNonLinearStepper() {
+  const steps = Object.keys(Screens);
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
@@ -80,7 +81,7 @@ export default function HorizontalNonLinearStepper() {
       </Stepper>
       <div>
         {allStepsCompleted() ? (
-          <React.Fragment>
+          <>
             <Typography sx={{ mt: 2, mb: 1 }}>
               All steps completed - you&apos;re finished
             </Typography>
@@ -88,12 +89,10 @@ export default function HorizontalNonLinearStepper() {
               <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleReset}>Reset</Button>
             </Box>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-              Step {activeStep + 1}
-            </Typography>
+          <>
+            {Screens[steps[activeStep]]}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -123,7 +122,7 @@ export default function HorizontalNonLinearStepper() {
                   </Button>
                 ))}
             </Box>
-          </React.Fragment>
+          </>
         )}
       </div>
     </Box>

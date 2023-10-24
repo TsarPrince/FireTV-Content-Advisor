@@ -14,7 +14,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import GDSCBanner from "@/components/FireTVBanner";
+import FireTVBanner from "@/components/FireTVBanner";
 import { useRouter } from "next/navigation";
 import Copyright from "@/components/Copyright";
 
@@ -85,9 +85,12 @@ export default function SignIn() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          gap: "0.25rem",
         }}
       >
-        <GDSCBanner />
+        <div style={{ marginBottom: "1rem" }}>
+          <FireTVBanner />
+        </div>
         <Typography component="h1" variant="h5">
           Admin Sign in
         </Typography>
@@ -132,7 +135,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/onboarding" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

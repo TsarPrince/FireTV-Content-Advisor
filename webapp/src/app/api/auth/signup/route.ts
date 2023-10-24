@@ -7,7 +7,7 @@ import { signToken } from "@/lib/server/auth-utils";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    if (!isValidBody(body, ["email", "password", "rememberMe"]))
+    if (!isValidBody(body as never, ["email", "password", "rememberMe"]))
       throw new Error("Invalid request");
     const { email, password, rememberMe } = body;
 
