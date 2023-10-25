@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     if (!isValidBody(body as never, ["email", "password", "rememberMe"]))
       throw new Error("Invalid request");
     const { email, password, rememberMe } = body;
-    const admin = await prisma.admin.findUnique({
+    const admin = await prisma.user.findUnique({
       where: {
         email,
       },

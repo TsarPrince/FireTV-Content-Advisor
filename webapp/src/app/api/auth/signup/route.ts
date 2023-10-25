@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       throw new Error("Invalid request");
     const { email, password, rememberMe } = body;
 
-    const admin = await prisma.admin.findUnique({
+    const admin = await prisma.user.findUnique({
       where: {
         email,
       },
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     // Create a new account
     const hashedPassword = await bcrypt.hash(password, 10);
     // TODO: Validate the fields from the request body
-    const newAdmin = await prisma.admin.create({
+    const newAdmin = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
@@ -44,7 +44,6 @@ export async function POST(request: Request) {
         {
           id: newAdmin.id,
           email: newAdmin.email,
-          role: "admin",
           name: "",
         },
         { expiresIn: "30d" }
@@ -66,7 +65,6 @@ export async function POST(request: Request) {
       const token = signToken({
         id: newAdmin.id,
         email: newAdmin.email,
-        role: "admin",
         name: "",
       });
       return NextResponse.json(

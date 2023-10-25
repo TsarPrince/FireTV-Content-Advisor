@@ -1,18 +1,17 @@
 import * as React from "react";
 
 const AuthContext = React.createContext<{
-  authData: AuthData | null;
+  authData: TokenData | null;
   isLoading: boolean;
-  setAuthData: React.Dispatch<React.SetStateAction<AuthData | null>>;
+  setAuthData: React.Dispatch<React.SetStateAction<TokenData | null>>;
 }>({
   authData: null,
   isLoading: true,
   setAuthData: () => {},
 });
 
-export type AuthData = {
+export type TokenData = {
   id: string;
-  role: "admin" | "user" | "guest";
   email: string;
   name: string;
 };
@@ -35,9 +34,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 // Auth hook
 export function useAuth() {
   const [isLoading, setLoading] = React.useState(true);
-  const [authData, setAuthData] = React.useState<AuthData | null>({
+  const [authData, setAuthData] = React.useState<TokenData | null>({
     id: "",
-    role: "guest",
     email: "",
     name: "",
   });

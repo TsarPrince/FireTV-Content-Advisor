@@ -1,6 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import GDSCHeader from "@/components/FireTVHeader";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export const metadata = {
   title: "Home | Content Advisor",
@@ -8,6 +10,15 @@ export const metadata = {
 };
 
 export default async function HomePage() {
+  const c = cookies();
+  const token = c.get("token");
+
+  if (!token) {
+    redirect("/signin");
+  } else {
+    redirect("/dashboard");
+  }
+
   return (
     <Box
       sx={{

@@ -15,17 +15,6 @@ export default function GDSCHeader() {
       }}
     >
       <FireTVLogo />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-start",
-        }}
-      >
-        <h1 style={{ margin: 0 }}>Leaderboard 2023-24</h1>
-        <h3 style={{ margin: 0, opacity: 0.9 }}>Fire TV</h3>
-      </Box>
     </Box>
   );
 }

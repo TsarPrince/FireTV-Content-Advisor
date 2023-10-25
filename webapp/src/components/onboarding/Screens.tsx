@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Interests from "./Interests";
 import PrivacySettings from "./PrivacySettings";
 import { useRouter } from "next/navigation";
+import { Prisma } from "@prisma/client";
 
 export default function HorizontalNonLinearStepper() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function HorizontalNonLinearStepper() {
   const [completed, setCompleted] = React.useState<{
     [k: number]: boolean;
   }>({});
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const totalSteps = () => {
     return steps.length;
@@ -71,6 +73,33 @@ export default function HorizontalNonLinearStepper() {
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
+  };
+
+  const handleFinish = () => {
+    if (completedSteps() === totalSteps() - 1) {
+      // const updatedData: Prisma.UserUpdateInput = {
+      //   onboardingData: {
+      //     create: {
+      //       genres: (screenData[0] ?? []) as string[],
+      //       // privacySettings: ,
+      //     },
+      //   },
+      // };
+      // // Send an api request to update the onboarding details
+      // setLoading(true);
+      // const response = fetch("/api/user", {
+      //   method: "PATCH",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   credentials: "include",
+      //   body: JSON.stringify({
+      //     updateData: {},
+      //   }),
+      // });
+      // setLoading(false);
+      router.push("/dashboard");
+    } else handleComplete();
   };
 
   const handleReset = () => {
@@ -132,13 +161,7 @@ export default function HorizontalNonLinearStepper() {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button
-                    onClick={() => {
-                      if (completedSteps() === totalSteps() - 1)
-                        router.push("/recommendations");
-                      else handleComplete();
-                    }}
-                  >
+                  <Button onClick={handleFinish} loading={loading}>
                     {completedSteps() === totalSteps() - 1
                       ? "Finish"
                       : "Complete Step"}
