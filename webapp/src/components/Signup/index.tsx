@@ -14,18 +14,20 @@ import Container from "@mui/material/Container";
 import Copyright from "../Copyright";
 import FireTVBanner from "../FireTVBanner";
 import { useRouter } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
 
 export default function SignUp() {
   const router = useRouter();
 
+  const [loading, setLoading] = React.useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const response = await fetch("/api/auth/signup", {
       method: "POST",
       body: JSON.stringify({
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
         email: data.get("email"),
         password: data.get("password"),
         rememberMe: true,
@@ -33,10 +35,9 @@ export default function SignUp() {
     });
 
     const responseJson = await response.json();
-
-    if (responseJson.status === "success") {
-      router.push("/onboarding");
-    }
+    console.log(responseJson);
+    setLoading(false);
+    router.push("/onboarding");
   };
 
   return (
@@ -106,14 +107,15 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            loading={loading}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signin" variant="body2">
