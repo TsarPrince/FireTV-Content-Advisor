@@ -28,9 +28,7 @@ export async function GET(req: NextRequest) {
           .find(".a-icon.a-icon-star-small span")
           .text();
         const price = $(element).find(".a-price").text();
-        const link = $(element)
-          .find(".a-link-normal .s-no-outline")
-          .attr("href");
+        const link = $(element).find("a").attr("href");
 
         return {
           imgSrc,
@@ -38,7 +36,7 @@ export async function GET(req: NextRequest) {
           numRatings,
           starRating,
           price,
-          link,
+          link: "https://www.amazon.com" + link,
         };
       })
       .toArray();

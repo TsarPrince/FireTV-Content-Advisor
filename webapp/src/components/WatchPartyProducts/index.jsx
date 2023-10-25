@@ -23,9 +23,9 @@ const index = ({ products }) => {
         products.map((product, key) => (
           <Card key={key} sx={{ maxWidth: 345 }}>
             <CardMedia
-              sx={{ height: 240 }}
+              component={"img"}
+              sx={{ height: 240, objectFit: "contain" }}
               image={product.imgSrc}
-              title="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -38,12 +38,14 @@ const index = ({ products }) => {
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
-              <Button size="small">
-                Buy{" "}
-                {product.price.split("$")?.[1]
-                  ? "($" + product.price.split("$")?.[1] + ")"
-                  : ""}
-              </Button>
+              <a href={product.link} target="_blank">
+                <Button size="small">
+                  Buy{" "}
+                  {product.price.split("$")?.[1]
+                    ? "($" + product.price.split("$")?.[1] + ")"
+                    : ""}
+                </Button>
+              </a>
             </CardActions>
           </Card>
         ))
