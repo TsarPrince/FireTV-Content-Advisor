@@ -16,7 +16,7 @@ export default async function HomePage() {
   if (!token) {
     redirect("/signin");
   } else {
-    redirect("/dashboard");
+    redirect("/recommendations");
   }
 
   return (

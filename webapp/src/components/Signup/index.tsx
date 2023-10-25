@@ -13,15 +13,30 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "../Copyright";
 import FireTVBanner from "../FireTVBanner";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        email: data.get("email"),
+        password: data.get("password"),
+        rememberMe: true,
+      }),
     });
+
+    const responseJson = await response.json();
+
+    if (responseJson.status === "success") {
+      router.push("/onboarding");
+    }
   };
 
   return (

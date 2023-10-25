@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default function LoginPage() {
   const token = cookies().get("token")?.value;
-  if (token && verifyToken(token)) redirect("/admin/dashboard");
+  if (token && verifyToken(token)) redirect("/recommendations");
 
   return <SignInPage.SignIn />;
 }

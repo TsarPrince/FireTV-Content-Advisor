@@ -11,13 +11,13 @@ export async function POST(request: Request) {
       throw new Error("Invalid request");
     const { email, password, rememberMe } = body;
 
-    const admin = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    if (admin !== null) {
+    if (user !== null) {
       // Account already exists
       return NextResponse.json(
         generateMessage({
@@ -31,19 +31,19 @@ export async function POST(request: Request) {
     // Create a new account
     const hashedPassword = await bcrypt.hash(password, 10);
     // TODO: Validate the fields from the request body
-    const newAdmin = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
       },
     });
 
-    // Successfully created the account -> Set cookies if rememberMe and redirect to dashboard
+    // Successfully created the account -> Set cookies if rememberMe and redirect to recommendations
     if (rememberMe === true) {
       const token = signToken(
         {
-          id: newAdmin.id,
-          email: newAdmin.email,
+          id: newUser.id,
+          email: newUser.email,
           name: "",
         },
         { expiresIn: "30d" }
@@ -63,8 +63,8 @@ export async function POST(request: Request) {
       );
     } else {
       const token = signToken({
-        id: newAdmin.id,
-        email: newAdmin.email,
+        id: newUser.id,
+        email: newUser.email,
         name: "",
       });
       return NextResponse.json(

@@ -57,7 +57,7 @@ export default function SignIn() {
         message: "Logged in successfully",
         severity: "success",
       });
-      router.push("/admin/dashboard");
+      router.push("/recommendations");
     } catch (error) {
       if (error instanceof Error)
         setSnackbarState({
@@ -92,7 +92,7 @@ export default function SignIn() {
           <FireTVBanner />
         </div>
         <Typography component="h1" variant="h5">
-          Admin Sign in
+          Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -135,7 +135,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/onboarding" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

@@ -10,13 +10,13 @@ export async function POST(request: Request) {
     if (!isValidBody(body as never, ["email", "password", "rememberMe"]))
       throw new Error("Invalid request");
     const { email, password, rememberMe } = body;
-    const admin = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    if (admin === null) {
+    if (user === null) {
       return NextResponse.json(
         generateMessage({
           message: "Invalid email or password",
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const passwordMatch = await bcrypt.compare(password, admin.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch === false) {
       return NextResponse.json(
         generateMessage({
@@ -37,10 +37,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Successfully authenticated -> Set cookies if rememberMe and redirect to dashboard
+    // Successfully authenticated -> Set cookies if rememberMe and redirect to recommendations
     if (rememberMe === true) {
       const token = signToken(
-        { id: admin.id, email: admin.email, role: "admin", name: "" },
+        { id: user.id, email: user.email, name: "" },
         {
           expiresIn: "30d",
         }
@@ -60,9 +60,8 @@ export async function POST(request: Request) {
       );
     } else {
       const token = signToken({
-        id: admin.id,
-        email: admin.email,
-        role: "admin",
+        id: user.id,
+        email: user.email,
         name: "",
       });
       return NextResponse.json(

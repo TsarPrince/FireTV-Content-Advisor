@@ -29,6 +29,8 @@ export async function PATCH(request: NextRequest) {
 
     if (user === null) throw new Error("User not found");
 
+    console.log({ updateFields });
+
     // Update the user
     const updatedUser = await prisma.user.update({
       where: {

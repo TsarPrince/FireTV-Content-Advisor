@@ -19,7 +19,7 @@ export default async function OnBoarding() {
       // Check user onboarding
       const hasCompletedOnboarding = await checkUserOnboarding(token.value);
       if (hasCompletedOnboarding) {
-        redirect("/dashboard");
+        redirect("/recommendations");
       }
     } else {
       // Token isn't valid, clear the cookies and redirect to signin

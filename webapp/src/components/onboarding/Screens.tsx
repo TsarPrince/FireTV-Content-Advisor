@@ -11,6 +11,7 @@ import Interests from "./Interests";
 import PrivacySettings from "./PrivacySettings";
 import { useRouter } from "next/navigation";
 import { Prisma } from "@prisma/client";
+import { LoadingButton } from "@mui/lab";
 
 export default function HorizontalNonLinearStepper() {
   const router = useRouter();
@@ -75,30 +76,35 @@ export default function HorizontalNonLinearStepper() {
     handleNext();
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (completedSteps() === totalSteps() - 1) {
-      // const updatedData: Prisma.UserUpdateInput = {
-      //   onboardingData: {
-      //     create: {
-      //       genres: (screenData[0] ?? []) as string[],
-      //       // privacySettings: ,
-      //     },
-      //   },
-      // };
-      // // Send an api request to update the onboarding details
-      // setLoading(true);
-      // const response = fetch("/api/user", {
-      //   method: "PATCH",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   credentials: "include",
-      //   body: JSON.stringify({
-      //     updateData: {},
-      //   }),
-      // });
-      // setLoading(false);
-      router.push("/dashboard");
+      const updatedData: Prisma.UserUpdateInput = {
+        onboardingData: {
+          create: {
+            genres: ((screenData[0] as { id: number; name: string }[]).map(
+              (genre) => genre.name
+            ) ?? []) as string[],
+            privacyPreferences: {},
+          },
+        },
+      };
+      // Send an api request to update the onboarding details
+      setLoading(true);
+      const response = await fetch("/api/user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          updateFields: updatedData,
+        }),
+      });
+
+      const responseJson = await response.json();
+      console.log({ responseJson });
+      setLoading(false);
+      router.push("/recommendations");
     } else handleComplete();
   };
 
@@ -161,11 +167,11 @@ export default function HorizontalNonLinearStepper() {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button onClick={handleFinish} loading={loading}>
+                  <LoadingButton onClick={handleFinish} loading={loading}>
                     {completedSteps() === totalSteps() - 1
                       ? "Finish"
                       : "Complete Step"}
-                  </Button>
+                  </LoadingButton>
                   // <Link href={"/recommendations"}>
                   //   <Button>Finish</Button>
                   // </Link>
