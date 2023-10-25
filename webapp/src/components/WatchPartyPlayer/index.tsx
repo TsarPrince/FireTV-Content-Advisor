@@ -48,7 +48,7 @@ export default function WatchPartyPlayer({ movie: MOVIE }: { movie: Movie }) {
         backgroundImage: `url(${resolveImage(MOVIE.backdrop_path)})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "100vh",
+        height: "calc(100vh - 48px)",
       }}
     >
       <Box
